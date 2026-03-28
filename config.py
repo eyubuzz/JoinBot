@@ -18,10 +18,9 @@ REQUIRED_CHANNELS: list[str] = [
     for ch in _require("REQUIRED_CHANNELS").split(",")
     if ch.strip()
 ]
-VERIFICATION_TIMEOUT: int = int(os.getenv("VERIFICATION_TIMEOUT", "5"))
 WELCOME_MESSAGE: str = os.getenv(
     "WELCOME_MESSAGE",
-    "👋 Welcome, <b>{first_name}</b>!\n\nTo chat in <b>{group_name}</b>, join our channels and click <b>Verify Me ✅</b>.\n\nYou have <b>{timeout} minutes</b> before being removed.",
+    "👋 Welcome, <b>{first_name}</b>!\n\nTo chat in <b>{group_name}</b>, join our channels below and click <b>Verify Me ✅</b>.\n\nUntil you verify, your messages will be removed.",
 )
 VERIFIED_MESSAGE: str = os.getenv(
     "VERIFIED_MESSAGE",
