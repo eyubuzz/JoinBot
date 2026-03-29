@@ -81,7 +81,22 @@ async def on_new_member(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
     if not result:
         return
 
+    # Log every chat_member update so we can see what's coming in
+    logger.info(
+        "chat_member update — chat: %s (%d), user: %s, %s → %s",
+        result.chat.title,
+        result.chat.id,
+        result.new_chat_member.user.full_name,
+        result.old_chat_member.status,
+        result.new_chat_member.status,
+    )
+
     if result.chat.id != config.GROUP_CHAT_ID:
+        logger.warning(
+            "Ignored update from chat %d — expected GROUP_CHAT_ID=%d",
+            result.chat.id,
+            config.GROUP_CHAT_ID,
+        )
         return
 
     old_status = result.old_chat_member.status
