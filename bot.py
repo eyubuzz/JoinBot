@@ -62,6 +62,20 @@ async def on_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None
     if not message or not user or user.is_bot:
         return
 
+    # Skip messages posted by the channel itself (comment section posts)
+    if message.sender_chat:
+        return
+
+    # Skip group admins and the channel owner
+    try:
+        member = await context.bot.get_chat_member(
+            chat_id=message.chat_id, user_id=user.id
+        )
+        if member.status in ("administrator", "creator"):
+            return
+    except (BadRequest, Forbidden):
+        pass
+
     missing = [
         ch for ch in config.REQUIRED_CHANNELS
         if not await _is_member(user.id, ch, context.bot)
